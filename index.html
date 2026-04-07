@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CX Client — Badge System</title>
+  <style>
+    :root {
+      --bg:        #0a0a0e;
+      --surface:   #111118;
+      --border:    #1e1e2e;
+      --accent:    #7c6fff;
+      --accent2:   #5be9b9;
+      --text:      #e4e4ef;
+      --muted:     #6b6b8a;
+      --radius:    10px;
+      --font:      'Segoe UI', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ────────────────────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 40px;
+      text-align: center;
+      background: linear-gradient(180deg, #12121f 0%, var(--bg) 100%);
+    }
+    header .chip {
+      display: inline-block;
+      background: rgba(124,111,255,.15);
+      border: 1px solid rgba(124,111,255,.35);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 12px;
+    }
+    header h1 span { color: var(--accent); }
+    header p {
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto;
+      font-size: .95rem;
+    }
+
+    /* ── Layout ────────────────────────────────────────────── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    section { margin-bottom: 52px; }
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--accent2);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Badge grid ─────────────────────────────────────────── */
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .badge-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color .2s;
+    }
+    .badge-card:hover { border-color: var(--accent); }
+    .badge-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .badge-info strong { display: block; font-size: .9rem; }
+    .badge-info small  { color: var(--muted); font-size: .78rem; }
+    .badge-key {
+      margin-left: auto;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: monospace;
+      font-size: .75rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    /* colours per badge */
+    .icon-dev      { background: rgba(85,255,85,.12);  color: #55ff55; }
+    .icon-suporte  { background: rgba(85,255,255,.12); color: #55ffff; }
+    .icon-youtuber { background: rgba(255,85,85,.12);  color: #ff5555; }
+    .icon-tiktok   { background: rgba(255,85,255,.12); color: #ff55ff; }
+    .icon-premium  { background: rgba(255,215,0,.12);  color: #ffd700; }
+    .icon-usuario  { background: rgba(170,170,170,.1); color: #aaa; }
+
+    /* ── JSON block ─────────────────────────────────────────── */
+    .code-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: auto;
+    }
+    .code-block pre {
+      padding: 22px 24px;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      font-size: .82rem;
+      line-height: 1.7;
+      color: #c9d1d9;
+    }
+    .k  { color: #ff79c6; }
+    .s  { color: #f1fa8c; }
+    .v  { color: #50fa7b; }
+    .p  { color: #8be9fd; }
+
+    /* ── Rule table ─────────────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+    }
+    thead tr { background: var(--surface); }
+    th, td {
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    th { color: var(--muted); font-weight: 600; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; }
+    td code {
+      background: rgba(255,255,255,.06);
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: .8rem;
+    }
+    .ok   { color: #50fa7b; }
+    .warn { color: #f1fa8c; }
+    .no   { color: #ff5555; }
+
+    /* ── Priority bar ───────────────────────────────────────── */
+    .priority-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: .78rem;
+      font-weight: 600;
+    }
+    .prio-item {
+      flex: 1;
+      padding: 12px 6px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background .2s;
+    }
+    .prio-item:last-child { border-right: none; }
+    .prio-item:hover { background: rgba(255,255,255,.04); }
+    .prio-item .num { display: block; color: var(--muted); font-size: .7rem; font-weight: 400; margin-top: 2px; }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: .78rem;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="chip">CX Client 1.4.1 · 1.8.9</div>
+  <h1>Badge <span>System</span></h1>
+  <p>Ícones de identificação ao lado do nick dos jogadores, carregados remotamente via JSON.</p>
+</header>
+
+<main>
+
+  <!-- BADGES -->
+  <section>
+    <h2>Tipos de Badge</h2>
+    <div class="badge-grid">
+
+      <div class="badge-card">
+        <div class="badge-icon icon-dev">⚙️</div>
+        <div class="badge-info">
+          <strong>Dev</strong>
+          <small>Criador do client</small>
+        </div>
+        <span class="badge-key">dev</span>
+      </div>
+
+      <div class="badge-card">
+        <div class="badge-icon icon-suporte">🛡️</div>
+        <div class="badge-info">
+          <strong>Suporte</strong>
+          <small>Membro de suporte</small>
+        </div>
+        <span class="badge-key">suporte</span>
+      </div>
+
+      <div class="badge-card">
+        <div class="badge-icon icon-youtuber">▶️</div>
+        <div class="badge-info">
+          <strong>YouTuber</strong>
+          <small>Criador de conteúdo</small>
+        </div>
+        <span class="badge-key">youtuber</span>
+      </div>
+
+      <div class="badge-card">
+        <div class="badge-icon icon-tiktok">🎵</div>
+        <div class="badge-info">
+          <strong>TikTok</strong>
+          <small>Criador de conteúdo</small>
+        </div>
+        <span class="badge-key">tiktok</span>
+      </div>
+
+      <div class="badge-card">
+        <div class="badge-icon icon-premium">⭐</div>
+        <div class="badge-info">
+          <strong>Premium</strong>
+          <small>Usuário premium</small>
+        </div>
+        <span class="badge-key">premium</span>
+      </div>
+
+      <div class="badge-card">
+        <div class="badge-icon icon-usuario">👤</div>
+        <div class="badge-info">
+          <strong>Usuário</strong>
+          <small>Usuário do client</small>
+        </div>
+        <span class="badge-key">usuario</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PRIORITY -->
+  <section>
+    <h2>Ordem de Prioridade</h2>
+    <div class="priority-bar">
+      <div class="prio-item" style="color:#55ff55">dev<span class="num">#1</span></div>
+      <div class="prio-item" style="color:#55ffff">suporte<span class="num">#2</span></div>
+      <div class="prio-item" style="color:#ff5555">youtuber<span class="num">#3</span></div>
+      <div class="prio-item" style="color:#ff55ff">tiktok<span class="num">#4</span></div>
+      <div class="prio-item" style="color:#ffd700">premium<span class="num">#5</span></div>
+      <div class="prio-item" style="color:#aaa">usuario<span class="num">#6</span></div>
+    </div>
+    <p style="color:var(--muted);font-size:.82rem;margin-top:12px;">Quando um jogador tem múltiplas badges, elas são ordenadas da maior para menor prioridade da esquerda para a direita.</p>
+  </section>
+
+  <!-- RULES -->
+  <section>
+    <h2>Regras de Exibição</h2>
+    <table>
+      <thead>
+        <tr><th>Situação</th><th>Badge exibida</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Jogador presente no <code>badges.json</code></td>
+          <td class="ok">✔ Badges definidas no JSON</td>
+        </tr>
+        <tr>
+          <td>Jogador usa o client mas <strong>não</strong> está no JSON</td>
+          <td class="warn">⚡ Badge <code>usuario</code> (automática)</td>
+        </tr>
+        <tr>
+          <td>Jogador não usa o client</td>
+          <td class="no">✖ Nenhuma badge</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- JSON FORMAT -->
+  <section>
+    <h2>Formato do JSON</h2>
+    <div class="code-block"><pre>{
+  <span class="k">"players"</span>: [
+    {
+      <span class="k">"nick"</span>:   <span class="s">"DevOwner"</span>,
+      <span class="k">"badges"</span>: [<span class="v">"dev"</span>]
+    },
+    {
+      <span class="k">"nick"</span>:   <span class="s">"SuportePremium"</span>,
+      <span class="k">"badges"</span>: [<span class="v">"suporte"</span>, <span class="v">"premium"</span>]
+    },
+    {
+      <span class="k">"nick"</span>:   <span class="s">"CanalYT"</span>,
+      <span class="k">"badges"</span>: [<span class="v">"youtuber"</span>]
+    }
+  ]
+}</pre></div>
+    <p style="color:var(--muted);font-size:.82rem;margin-top:12px;">O campo <code style="color:var(--text)">nick</code> é case-insensitive. Múltiplas badges por jogador são suportadas.</p>
+  </section>
+
+  <!-- WHERE -->
+  <section>
+    <h2>Onde as Badges Aparecem</h2>
+    <table>
+      <thead>
+        <tr><th>Superfície</th><th>Implementação</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Nametag (acima da cabeça)</td>
+          <td><code>RendererLivingEntityBadgePatch</code></td>
+          <td class="ok">✔ Implementado</td>
+        </tr>
+        <tr>
+          <td>Tab List</td>
+          <td><code>GuiPlayerTabOverlayBadgePatch</code></td>
+          <td class="ok">✔ Implementado</td>
+        </tr>
+        <tr>
+          <td>Chat</td>
+          <td><code>GuiNewChatBadgePatch</code></td>
+          <td class="ok">✔ Implementado</td>
+        </tr>
+        <tr>
+          <td>HUD (jogador local)</td>
+          <td><code>BadgeEventHandler</code> + <code>BadgeHudElement</code></td>
+          <td class="ok">✔ Implementado</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>CX Client &copy; 2024 · Badge System · <a href="badges.json" style="color:var(--accent);text-decoration:none;">badges.json</a></footer>
+
+</body>
+</html>

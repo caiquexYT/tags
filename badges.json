@@ -1,0 +1,32 @@
+{
+  "players": [
+    {
+      "nick": "DevOwner",
+      "badges": ["dev"]
+    },
+    {
+      "nick": "Suporte01",
+      "badges": ["suporte"]
+    },
+    {
+      "nick": "CanalYT",
+      "badges": ["youtuber"]
+    },
+    {
+      "nick": "TikToker",
+      "badges": ["tiktok"]
+    },
+    {
+      "nick": "PremiumUser",
+      "badges": ["premium"]
+    },
+    {
+      "nick": "DevYoutuber",
+      "badges": ["dev", "youtuber"]
+    },
+    {
+      "nick": "SuportePremium",
+      "badges": ["suporte", "premium"]
+    }
+  ]
+}
