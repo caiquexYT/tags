@@ -1,31 +1,31 @@
 {
   "players": [
     {
-      "nick": "DevOwner",
+      "nick": "CxClient",
       "badges": ["dev"]
     },
     {
-      "nick": "Suporte01",
+      "nick": "Ikyzera",
       "badges": ["suporte"]
     },
     {
-      "nick": "CanalYT",
+      "nick": "",
       "badges": ["youtuber"]
     },
     {
-      "nick": "TikToker",
+      "nick": "",
       "badges": ["tiktok"]
     },
     {
-      "nick": "PremiumUser",
+      "nick": "",
       "badges": ["premium"]
     },
     {
-      "nick": "DevYoutuber",
+      "nick": "",
       "badges": ["dev", "youtuber"]
     },
     {
-      "nick": "SuportePremium",
+      "nick": "",
       "badges": ["suporte", "premium"]
     }
   ]
